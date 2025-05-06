@@ -1,0 +1,55 @@
+{{!< default}}
+
+{{!-- Preload tags.css --}}
+{{#contentFor "preload"}}
+  <link rel="preload" href="{{asset "css/tags.css"}}" as="style" />
+{{/contentFor}}
+
+{{!-- Load tags.css --}}
+{{#contentFor "styles"}}
+  <link rel="stylesheet" type="text/css" href="{{asset "css/tags.css"}}" media="screen" />
+{{/contentFor}}
+
+{{!-- Gọi header chung --}}
+{{> header}}
+
+<main class="main-wrap">
+
+  {{!-- Hero Section --}}
+  <section class="m-hero">
+    <div class="m-hero__content" data-animate="fade-down">
+      <h1 class="m-hero-title bigger">All Tags</h1>
+      <p class="m-hero-description">Explore articles by topic</p>
+    </div>
+  </section>
+
+  {{!-- Danh sách tag --}}
+  <div class="l-content">
+    <div class="l-wrapper" data-animate="fade-up">
+      <div class="l-tags-container">
+        {{#get "tags" limit="all" include="count.posts"}}
+          {{#foreach tags}}
+            <div class="m-tag-card">
+              <a href="{{url}}" class="m-tag-card__link {{#unless feature_image}}no-picture{{/unless}}" aria-label="{{name}}">
+                {{#if feature_image}}
+                  <img class="m-tag-card__picture" src="{{img_url feature_image size="m"}}" loading="lazy" alt="">
+                {{/if}}
+                <div class="m-tag-card__info {{#unless feature_image}}no-picture{{/unless}}">
+                  <h4 class="m-tag-card__name">{{name}}</h4>
+                  <span class="m-tag-card__counter">
+                    {{plural count.posts empty=(t "No posts") singular=(t "1 post") plural=(t "% posts")}}
+                  </span>
+                </div>
+              </a>
+            </div>
+          {{else}}
+            <p class="m-not-found">
+              {{t "No tags found :("}}
+            </p>
+          {{/foreach}}
+        {{/get}}
+      </div>
+    </div>
+  </div>
+
+</main>
